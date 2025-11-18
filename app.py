@@ -26,13 +26,14 @@ if st.button("Analyze"):
     4. When to see a doctor
     """
 
-    chat = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
-        messages=[{
-            "role": "user",
-            "content": prompt
-        }]
-    )
+chat = client.chat.completions.create(
+    model="llama3-70b-8192",
+    messages=[{
+        "role": "user",
+        "content": prompt
+    }]
+)
+
 
     result = chat.choices[0].message["content"]
 
