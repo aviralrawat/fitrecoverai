@@ -1,12 +1,12 @@
 import streamlit as st
-from openai import OpenAI
+from groq import Groq
 import os
 
-# Load API key from environment variable
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# Load Groq API key from environment
+client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 st.title("🏥 FitRecoverAI")
-st.subheader("AI-Powered Injury Recovery Assistant")
+st.subheader("AI-Powered Injury Recovery Assistant (FREE using Groq API)")
 
 injury = st.text_input("Enter your injury:")
 pain = st.slider("Pain level (1–10):", 1, 10)
@@ -26,10 +26,16 @@ if st.button("Analyze"):
     4. When to see a doctor
     """
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
+    chat = client.chat.completions.create(
+        model="llama-3.1-70b-versatile",
+        messages=[{
+            "role": "user",
+            "content": prompt
+        }]
     )
 
+    result = chat.choices[0].message["content"]
+
     st.write("### Recovery Plan:")
-    st.write(response.choices[0].message["content"])
+    st.write(result)
+
